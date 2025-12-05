@@ -229,7 +229,7 @@ def main():
     lang = st.sidebar.radio(
         "Language / 語言",
         ('English', '繁體中文'),
-        index=1
+        index=0
     )
     lang_code = 'tc' if lang == '繁體中文' else 'en'
     
