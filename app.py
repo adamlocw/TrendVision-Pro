@@ -22,6 +22,8 @@ TRANSLATIONS = {
         'custom_ticker_label': 'Or Enter Custom Ticker',
         'period_label': 'Select Time Period',
         'year_unit': 'Year(s)',
+        'month_1': '1 Month',
+        'month_3': '3 Months',
         'month_6': '6 Months',
         'language_label': 'Select Language',
         'error_fetch': 'Error fetching data. Please check the ticker symbol.',
@@ -47,6 +49,8 @@ TRANSLATIONS = {
         'custom_ticker_label': '或輸入自訂代號',
         'period_label': '選擇時間範圍',
         'year_unit': '年',
+        'month_1': '1 個月',
+        'month_3': '3 個月',
         'month_6': '6 個月',
         'language_label': '選擇語言',
         'error_fetch': '獲取數據時發生錯誤，請檢查代號是否正確。',
@@ -252,10 +256,14 @@ def main():
     st.sidebar.caption(get_text('instructions', lang_code))
 
     # Time Period Selection
-    # 0.5 represents 6 months
-    time_options = [0.5, 1, 2, 3, 4, 5]
+    # Values represent years. 1/12 is approx 1 month.
+    time_options = [1/12, 0.25, 0.5, 1, 2, 3, 4, 5]
     
     def format_time_option(val):
+        if val == 1/12:
+            return get_text('month_1', lang_code)
+        if val == 0.25:
+            return get_text('month_3', lang_code)
         if val == 0.5:
             return get_text('month_6', lang_code)
         return f"{val} {get_text('year_unit', lang_code)}"
@@ -264,7 +272,7 @@ def main():
         get_text('period_label', lang_code),
         options=time_options,
         format_func=format_time_option,
-        index=1  # Index 1 corresponds to '1' in the list (Default 1 year)
+        index=3  # Index 3 corresponds to '1' in the list (Default 1 year)
     )
     days_lookback = int(selected_val * 365)
     
